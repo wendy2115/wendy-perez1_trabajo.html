@@ -1,0 +1,77 @@
+.agendar-container {
+  position: relative;
+  margin-top: 70px;
+  padding: 30px;
+  background-image: url('../images/banner/spa3.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.agendar-oscuro {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background-color: #00000099;
+}
+
+.agendar-titulo {
+  font-size: 40px;
+  text-align: center;
+  padding: 15px;
+  color: #c63d8f;
+}
+
+.agendar-formulario {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  max-width: 600px;
+  margin: auto;
+}
+
+.agendar-formulario label {
+  font-size: 20px;
+  margin: 25px 0 5px;
+  color: #f6dce0;
+}
+
+.agendar-option {
+  height: 30px;
+  border: 2px solid #c63d8f;
+  outline: none;
+  border-radius: 5px;
+  padding: 0 15px;
+}
+
+.agendar-polit-priv {
+  display: flex;
+  margin: 25px 0;
+}
+
+.agendar-polit-priv a {
+  margin-left: 10px;
+  color: #f6dce0;
+}
+
+.agendar-enviar {
+  width: 20%;
+  padding: 7px;
+  background-color: #c63d8f;
+  color: white;
+  font-size: 16px;
+  border: 2px solid #c63d8f;
+  outline: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.agendar-enviar:hover {
+  color: #c63d8f;
+  background-color: white;
+}

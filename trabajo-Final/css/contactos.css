@@ -1,0 +1,31 @@
+.contacto-container {
+  display: flex;
+  padding: 10%;
+  margin-top: 70px;
+}
+
+.contacto-mapa {
+    background-color: red;
+    width: 45%;
+    max-width: 100%;
+    min-width: 300px;
+}
+
+.contacto-mensaje {
+    padding: 50px;
+    background-color: #F6DCE0;
+    
+}
+
+.contacto-mensaje-datos {
+}
+
+.contacto-mensaje-datos-L1 {
+  display: flex;
+}
+
+.contacto-mensaje {
+}
+
+.contacto-enviar {
+}
