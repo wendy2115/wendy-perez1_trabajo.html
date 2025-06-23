@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+    db-server:
+        image: mysql:5.7
+        container_name: app-db-final
+        restart: unless-stopped
+        environment:
+          MYSQL_DATABASE: ${DATA_BASE}
+          MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT}
+          MYSQL_PASSWORD: ${PASSWORD}
+          MYSQL_USER: ${USERNAME}
+          SERVICE_TAGS: dev
+          SERVICE_NAME: mysql
+        ports:
+          - "${PORT}:3306"
+        networks:
+          - app-net-final
+    app:
+        build:
+          context: ./
+          dockerfile: ./docker/php74/Dockerfile
+        image: app-pagina
+        restart: unless-stopped
+        container_name: container_app_pagina
+        networks:
+          - app-net-final
+        ports:
+          - "8080:80"
+        volumes:
+          - ./:/var/www/html
+        depends_on:
+          - db-server
+networks:
+  app-net-final:
+    driver: bridge
+volumes:
+  dbdata:
