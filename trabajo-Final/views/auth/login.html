@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../css/button.css">
     <link rel="stylesheet" href="../../css/alerts.css">
     
+    
 </head>
 <body>
     
@@ -18,11 +19,11 @@
             <h2>Iniciar Sesión</h2>
             
             
-            <p>¿No tienes cuenta? <a href="registro.php">Regístrate aquí</a></p>
+            <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>
             <div class="alert alert-error" id="alert-error" style="display: none;">
                 
             </div>
-            <form method="POST" class="form" >
+            <form  class="form" id="form_login">
                 <div class="form-group">
                     <label for="usuario">Usuario</label>
                     <input type="text" id="usuario" name="usuario" >
@@ -33,7 +34,7 @@
                     <input type="password" id="password" name="password" />
                 </div>
                 
-                <button id="btn-login" type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                <button id="btn-login" class="btn btn-primary">Iniciar Sesión</button>
             </form>
         </div>
     </main>

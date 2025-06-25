@@ -10,6 +10,12 @@
     padding: 2rem; /*asigna 2 rem para derecha, izquierda, arriba y abajo*/
     border: 1px solid #ddd; /*asigna un border de 1px de grosor al container con un color*/
     border-radius: 8px; /*le asigna una curva en las puntas al container*/
+    transition: transform 0.6s cubic-bezier(.4,2.3,.3,1);
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+}
+.form-container.animar{
+    transform: rotateY(30deg);
 }
 
 .form-group{
