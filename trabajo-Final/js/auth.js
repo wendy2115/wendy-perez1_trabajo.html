@@ -38,12 +38,12 @@ function login() {
     }
 }
 function register() {
-    const btn_register = document.getElementById("btn-register-external");
+    const btn_register = document.getElementById("btn_register");
     if (btn_register) {
         btn_register.addEventListener('click', function (e) {
             e.preventDefault();
             const formData = new FormData(document.getElementById("form_register_user"));
-            formData.append("title" , "create_external_user");
+            formData.append("title" , "create_user");
             fetch('../../presenters/Login.php',{
                 method:'POST',
                 body: formData

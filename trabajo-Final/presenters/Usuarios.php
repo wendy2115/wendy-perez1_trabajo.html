@@ -30,6 +30,9 @@ class Usuario{
         }
     
     }
+    public function create_user(){
+        
+    }
 }
 
 $title = $_POST["title"];
@@ -37,6 +40,9 @@ $usuario = new Usuario();
 switch($title){
     case "get_all_usuarios":
         $usuario->get_all_usuarios();
+        break;
+    case "create_user":
+        $usuario->create_user();
         break;
     default:
         echo "No existe";

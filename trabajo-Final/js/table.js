@@ -36,8 +36,41 @@ function delete_user(){
     })
 }
 
+function open_modal(){
+    const btn = document.getElementById("btn_open_modal_create");
+    if(btn){
+        btn.addEventListener('click' , (e) => {
+            e.preventDefault()
+            document.getElementById("createModal").style.display = 'block'
+        })
+    }
+}
+function close_modal(){
+    const btn = document.getElementById("close_create");
+    if(btn){
+        btn.addEventListener('click' , (e)=>{
+            e.preventDefault();
+            document.getElementById("createModal").style.display  = 'none';
+        })
+    }
+}
+/*function create_user(){
+    const btn = document.getElementById("btn_register");
+    if(btn){
+        btn.addEventListener('click', (e)=>{
+            e.preventDefault()
+            const form = new FormData(document.getElementById("form_register_user"));
+            for (const [key, value] of form.entries()) {
+  console.log(`${key}: ${value}`);
+}
+        })
+    }
+}*/
+
 function init(){
     load_usuarios();
+    open_modal();
+    close_modal();
     //delete_user();
 
 }

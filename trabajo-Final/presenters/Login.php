@@ -30,7 +30,7 @@ class Login{
 
     }
 
-    public function create_user_external(){
+    public function create_user(){
         $con = conexion();
         //creamos un object
         $info = new StdClass();
@@ -43,7 +43,12 @@ class Login{
         $info->sexo = $_POST["sexo"] ?? "";
         $info->usuario = $_POST["usuario"] ?? "";
         $info->password = $_POST["password"] ?? "";
-        $info->rol = "user";
+        if(isAdmin()){
+            $info->rol = $_POST["rol"] ?? "";
+        }else{
+            $info->rol = "user";
+        }
+        
         if(empty($info->nombre) || empty($info->apellidos) || empty($info->email) || 
         empty($info->telefono) || empty($info->fecha_nacimiento) || empty($info->direccion)
         || empty($info->sexo) || empty($info->usuario) || empty($info->password)){
@@ -97,7 +102,7 @@ switch($title){
         //ejecutamos la funcion login
         $login->login_user();
         break;
-    case "create_external_user":
+    case "create_user":
         $login->create_user_external();
         break;
     default:

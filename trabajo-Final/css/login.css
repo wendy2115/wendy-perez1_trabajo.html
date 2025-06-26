@@ -1,7 +1,7 @@
 .main-content{
     max-width: 100vh; /*ocupa el 100% de la pantalla*/
     margin:2rem auto; /*da un margen para derecha e izquieda 2 rem y auto para arriba y abajo*/
-    padding: 0 2rem; /*asigna aun paddingn derecha e izquieda de 0 y 2rem para arriba y abajo */
+    padding:  4rem; /*asigna aun paddingn derecha e izquieda de 0 y 2rem para arriba y abajo */
 }
 
 .form-container{
