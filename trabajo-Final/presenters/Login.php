@@ -25,6 +25,17 @@ class Login{
                 echo "Error en credenciales";
                 exit;
             }
+            //validar contraseña
+            if($this->validate_hash($password , $usuario["password"])){
+                $_SESSION["user_id"] = $usuario["idLogin"];
+                $_SESSION["rol"] = $usuario["rol"];
+                echo "ok";
+                exit;
+            }else{
+                echo "Error en credenciales";
+                exit;
+            }
+
             
         }
 
@@ -89,6 +100,22 @@ class Login{
     private function validate_hash($password , $hasPassword){
         return password_verify($password , $hasPassword);
     }
+
+    public function isLogin(){
+        if(isLoggedIn()){
+            echo true;
+        }else{
+            echo false;
+        }
+    }
+
+    public function isLoginAdmin(){
+        if(isAdmin()){
+            echo true;
+        }else{
+            echo false;
+        }
+    }
 }
 
 //recuperamos el post title
@@ -104,6 +131,12 @@ switch($title){
         break;
     case "create_user":
         $login->create_user_external();
+        break;
+    case "isLogin":
+        $login->isLogin();
+        break;
+    case "isAdmin":
+        $login->idLoginAdmin();
         break;
     default:
     echo "Title no reconocido: ".$title;

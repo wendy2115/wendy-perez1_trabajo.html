@@ -32,6 +32,8 @@ function login() {
                         alert_error(data);
                     } else if (data === "Error en credenciales") {
                         alert_error(data);
+                    }else if(data ==="ok"){
+                        window.location.href = "/views/index.html"
                     }
                 })
         });
