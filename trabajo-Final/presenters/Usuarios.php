@@ -20,7 +20,11 @@ class Usuario{
                 <td>".$item['fecha_nacimiento']."</td>
                 <td>".$item['direccion']."</td>
                 <td>".$item['sexo']."</td>
-                <td><button class='btn-rounded-danger' data-id='{$item['idUser']}' title='Eliminar'><i class='fa-solid fa-trash'></i></button></td>
+                <td>
+                <button class='btn-rounded-success' data-user='".json_encode($item)."' title='Actualizar'><i class='fa-solid fa-pencil'></i></button>
+                
+                <button class='btn-rounded-danger' data-id='{$item['idUser']}' title='Eliminar'><i class='fa-solid fa-trash'></i></button>
+                </td>
                 </tr>
                 ";
             }
@@ -33,16 +37,36 @@ class Usuario{
     public function create_user(){
         
     }
+
+    public function user_by_citas(){
+        
+        $usuario = new UsuarioModel();
+        $con = conexion();
+        $get_user_by_citas = $usuario->get_user_by_citas($con);
+        $table = "";
+        if($get_user_by_citas > 0){
+            foreach($get_user_by_citas as $item){
+                $table .= "<tr>
+                <td>".$item['idUser']." </td>
+                <td>".$item['nombre']." ".$item['apellidos']."</td>
+                </tr>";
+            }
+            echo $table;
+        }
+    }
 }
 
 $title = $_POST["title"];
 $usuario = new Usuario();
 switch($title){
     case "get_all_usuarios":
-        $usuario->get_all_usuarios();
+        $usuario->get_all_usuariosv();
         break;
     case "create_user":
         $usuario->create_user();
+        break;
+    case "user_by_citas":
+        $usuario->user_by_citas();
         break;
     default:
         echo "No existe";

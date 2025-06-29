@@ -28,10 +28,14 @@ function delete_user(){
             const id = btn.getAttribute("data-id");
 
             if(confirm("¿Estas seguro de eliminar el registro?")){
-                console.log(id)
+                //console.log(id)
                 const row = btn.closest("tr")
                 row.remove();
             }
+        }else if(e.target.closest(".btn-rounded-success")){
+            const edit = e.target.closest(".btn-rounded-success")
+            const data = edit.getAttribute("data-user")
+            open_modal_edit(data);
         }
     })
 }
@@ -43,14 +47,40 @@ function open_modal(){
             e.preventDefault()
             document.getElementById("createModal").style.display = 'block'
         })
+
+        close_modal("createModal" , "close_create")
     }
 }
-function close_modal(){
-    const btn = document.getElementById("close_create");
+
+function open_modal_edit(data){
+    const user = JSON.parse(data);
+    const modal = document.getElementById("editModal").style.display = 'block';
+    document.getElementById("edit_nombre").value = user.nombre;
+    document.getElementById("edit_apellidos").value = user.apellidos;
+    document.getElementById("edit_email").value = user.email;
+    document.getElementById("edit_telefono").value = user.telefono;
+    document.getElementById("edit_fecha_nacimiento").value = user.fecha_nacimiento;
+    document.getElementsByName("edit_sexo").value = user.edit_sexo;
+    document.getElementById("edit_direccion").value = user.direccion;
+    document.getElementById("edit_rol").value = user.rol;
+    editUser();
+    close_modal("editModal" , "close_edit")
+
+}
+
+function editUser(){
+    const btn = document.getElementById("form_edit_user");
+    if(btn){
+        
+    }
+}
+
+function close_modal(modal , id){
+    const btn = document.getElementById(id);
     if(btn){
         btn.addEventListener('click' , (e)=>{
             e.preventDefault();
-            document.getElementById("createModal").style.display  = 'none';
+            document.getElementById(modal).style.display  = 'none';
         })
     }
 }
@@ -70,7 +100,6 @@ function close_modal(){
 function init(){
     load_usuarios();
     open_modal();
-    close_modal();
     //delete_user();
 
 }

@@ -27,7 +27,7 @@ class Login{
             }
             //validar contraseña
             if($this->validate_hash($password , $usuario["password"])){
-                $_SESSION["user_id"] = $usuario["idLogin"];
+                $_SESSION["user_id"] = $usuario["idUser"];
                 $_SESSION["rol"] = $usuario["rol"];
                 echo "ok";
                 exit;
@@ -103,18 +103,22 @@ class Login{
 
     public function isLogin(){
         if(isLoggedIn()){
-            echo true;
+            echo "1";
         }else{
-            echo false;
+            echo "0";
         }
     }
 
     public function isLoginAdmin(){
         if(isAdmin()){
-            echo true;
+            echo "1";
         }else{
-            echo false;
+            echo "0";
         }
+    }
+
+    public function logout(){
+        session_destroy();
     }
 }
 
@@ -136,7 +140,10 @@ switch($title){
         $login->isLogin();
         break;
     case "isAdmin":
-        $login->idLoginAdmin();
+        $login->isLoginAdmin();
+        break;
+    case "logout":
+        $login->logout();
         break;
     default:
     echo "Title no reconocido: ".$title;

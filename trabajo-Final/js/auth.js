@@ -83,7 +83,7 @@ function alert_success(data , origen){
             alert.style.display = 'none'
             switch(origen){
                 case "register":
-                    window.location("login.html");
+                    window.location.href="/views/auth/login.html";
                 break;
             }
         } , 4000)

@@ -2,8 +2,12 @@
 
 class UsuarioModel{
 
+    
+
     public function find_by_username($username, $con){
-        $sql = "SELECT * FROM users_login WHERE usuario = :usuario";
+        $sql = "SELECT ul.*, ud.idUser FROM users_login ul
+        INNER JOIN users_data ud ON ud.idUser = ul.idUser
+        WHERE usuario = :usuario";
         $stm = $con->prepare($sql);
         $stm->bindParam("usuario" , $username);
         $stm->execute();
@@ -13,7 +17,8 @@ class UsuarioModel{
     }
 
     public function get_all_users_data($con){
-        $sql = "SELECT * FROM users_data";
+        $sql = "SELECT ud.* , ul.rol FROM users_data ud 
+        INNER JOIN users_login ul ON ul.idUser = ud.idUser";
         $stm = $con->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();

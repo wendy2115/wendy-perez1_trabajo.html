@@ -32,7 +32,7 @@ function isAdmin() {
 //redireccionar si no esta logueado
 function requireLogin() {
     if (!isLoggedIn()) {
-        header('Location: login.php');
+            echo "redirect";
         exit;
     }
 }

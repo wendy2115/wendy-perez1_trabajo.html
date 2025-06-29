@@ -1,11 +1,14 @@
 <?php
 class CitasModel{
 
-    public find_by_user($idUser , $con){
-        $sql = "SELECT * FROM citas c INNER JOIN users_data ud ON ud.idUser = c.idUser
-        WHERE c.idUser = :id";
+    //
+
+    public function get_all_citas_by_user($idLogin, $con){
+        $sql = "SELECT * FROM citas c 
+        INNER JOIN users_data ud ON ud.idUser = c.idUser
+        WHERE ud.idUser = :id";
         $stm = $con->prepare($sql);
-        $stm->bindParam("id" , $id);
+        $stm->bindParam("id" , $idLogin);
         $stm->execute();
 
         $result = $stm->fetchAll();
@@ -13,7 +16,7 @@ class CitasModel{
         return $result;
     }
 
-    public get_all_citas($con){
+    public function get_all_citas($con){
         $sql = "SELECT * FROM citas c INNER JOIN users_data ud on ud.idUser = c.idUser";
         $stm = $con->prepare($sql);
         $stm->execute();
@@ -21,6 +24,17 @@ class CitasModel{
         return $result;
 
 
+    }
+
+    public function get_user_by_citas($con){
+        $sql = "SELECT ud.* , ul.rol FROM users_data ud 
+        INNER JOIN users_login ul ON ul.idUser = ud.idUser
+        INNER JOIN citas c ON c.idUser = ud.idUser";
+        $stm = $con->prepare($sql);
+        $stm->execute();
+        $result = $stm->fetchAll();
+
+        return $result;
     }
 
     public function create($data , $con){
@@ -31,6 +45,8 @@ class CitasModel{
         $stm->bindParam("fecha_cita" , $data->fecha_cita);
         $stm->bindParam("motivo_cita" , $data->motivo_cita);
         $stm->execute();
+        $result = $con->lastInsertId();
+        return $result;
     }
 
     public function delete($id , $con){
