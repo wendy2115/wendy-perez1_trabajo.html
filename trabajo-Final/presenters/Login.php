@@ -120,6 +120,106 @@ class Login{
     public function logout(){
         session_destroy();
     }
+
+    public function perfil(){
+        requireLogin();
+        $con = conexion();
+        $usuarioModel = new UsuarioModel();
+        $user = $usuarioModel->find_by_idUser($_SESSION["user_id"] , $con);
+        if(empty($user)){
+            echo "Error al recuperar el usuario";
+            exit;
+        }
+        $data = '<div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" value="'.$user["nombre"].'" placeholder="Ingresa tu nombre">
+            </div>
+            <div class="form-group">
+                <label for="apellidos">Apellidos</label>
+                <input type="text" id="apellidos" name="apellidos" placeholder="Ingresa tus apellidos" value="'.$user["apellidos"].'">
+            </div>
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" name="email" placeholder="Ingresa tu correo electrónico" value="'.$user["email"].'">
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="Ingresa tu número de teléfono" value="'.$user["telefono"].'">
+            </div>
+            <div class="form-group">
+                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="'.$user["fecha_nacimiento"].'">
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" name="direccion" placeholder="Ingresa tu dirección" value="'.$user["direccion"].'">
+            </div>
+            <div class="form-group">
+                <label for="sexo">Sexo</label>
+                <select id="sexo" name="sexo">
+                    <option value="M" '.($user["sexo"] == "masculino" ? "selected" : "").'>Masculino</option>
+                    <option value="F" '.($user["sexo"] == "femenino" ? "selected" : "").'>Femenino</option>
+                   
+                </select>
+            </div>
+            <button type="button" id="open_modal_contrasena" class="btn btn-primary">Actualizar contraseña</button>
+            <button id="btn_update_perfil" class="btn btn-secondary">Actualizar Perfil</button>
+        ';
+        echo $data;
+        exit;
+    }
+
+    public function update_contrasena(){
+        requireLogin();
+        $con = conexion();
+        if(isset($_POST["contrasena"]) && isset($_POST["new_contrasena"])){
+            $idUser = $_SESSION["user_id"];
+            $usuarioModel = new UsuarioModel();
+            $userLogin = $usuarioModel->find_by_idUser($idUser , $con);
+            if($this->validate_hash($_POST["contrasena"] , $userLogin["password"])){
+                $password = $this->generate_hash($_POST["new_contrasena"]);
+                $id = $userLogin["idLogin"];
+                $cambio = $usuarioModel->updated_password($password, $id , $con);
+                if($cambio){
+                    echo "success";
+                    $this->logout();
+                    exit;
+                }
+            }else{
+                echo "Actual contraseña no coincide";
+            }
+
+        }else{
+            echo "Datos incompletos";
+            exit;
+        }
+    }
+
+    public function actualizar_perfil(){
+        requireLogin();
+        $con = conexion();
+        $info = new StdClass();
+        $info->idUser = $_SESSION["user_id"];
+        $info->nombre = $_POST["nombre"] ?? "";
+        $info->apellidos = $_POST["apellidos"] ?? "";
+        $info->email = $_POST["email"] ?? "";
+        $info->telefono = $_POST["telefono"] ?? "";
+        $info->fecha_nacimiento = $_POST["fecha_nacimiento"] ?? ""; 
+        $info->direccion = $_POST["direccion"] ?? "";
+        $info->sexo = $_POST["sexo"] ?? "";
+        if(empty($info->nombre) || empty($info->apellidos) || empty($info->email) || 
+        empty($info->telefono) || empty($info->fecha_nacimiento) || empty($info->direccion)
+        || empty($info->sexo)){
+            echo "No puede haber campos vacios";
+            exit;
+        }
+        $usuarioModel = new UsuarioModel();
+        $result = $usuarioModel->updated_user($info , $con);
+        if($result){
+            echo "success";
+            exit;
+        }
+    }
 }
 
 //recuperamos el post title
@@ -141,6 +241,15 @@ switch($title){
         break;
     case "isAdmin":
         $login->isLoginAdmin();
+        break;
+    case "perfil":
+        $login->perfil();
+        break;
+    case "update_contrasena":
+        $login->update_contrasena();
+        break;
+    case "actualizar_perfil":
+        $login->actualizar_perfil();
         break;
     case "logout":
         $login->logout();

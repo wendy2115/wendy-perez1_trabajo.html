@@ -104,6 +104,7 @@ function alert_error(data) {
 
 }
 
+
 function init() {
     animation();
     login();

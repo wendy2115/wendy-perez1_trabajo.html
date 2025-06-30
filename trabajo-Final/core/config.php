@@ -39,7 +39,7 @@ function requireLogin() {
 
 function requireAdmin() {
     if (!isAdmin()) {
-        header('Location: index.php');
+        echo "admin";
         exit;
     }
 }
