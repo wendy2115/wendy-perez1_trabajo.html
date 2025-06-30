@@ -1,0 +1,61 @@
+<?php
+class CitasModel{
+
+    //
+
+    public function get_all_citas_by_user($idLogin, $con){
+        $sql = "SELECT * FROM citas c 
+        INNER JOIN users_data ud ON ud.idUser = c.idUser
+        WHERE ud.idUser = :id";
+        $stm = $con->prepare($sql);
+        $stm->bindParam("id" , $idLogin);
+        $stm->execute();
+
+        $result = $stm->fetchAll();
+
+        return $result;
+    }
+
+    public function get_all_citas($con){
+        $sql = "SELECT * FROM citas c INNER JOIN users_data ud on ud.idUser = c.idUser";
+        $stm = $con->prepare($sql);
+        $stm->execute();
+        $result = $stm->fetchAll();
+        return $result;
+
+
+    }
+
+    public function get_user_by_citas($con){
+        $sql = "SELECT ud.* , ul.rol FROM users_data ud 
+        INNER JOIN users_login ul ON ul.idUser = ud.idUser
+        INNER JOIN citas c ON c.idUser = ud.idUser";
+        $stm = $con->prepare($sql);
+        $stm->execute();
+        $result = $stm->fetchAll();
+
+        return $result;
+    }
+
+    public function create($data , $con){
+        $sql = "INSERT INTO citas(idUser , fecha_cita, motivo_cita)
+        VALUES (:idUser , :fecha_cita , :motivo_cita)";
+        $stm = $con->prepare($sql);
+        $stm->bindParam("idUser" , $data->idUser);
+        $stm->bindParam("fecha_cita" , $data->fecha_cita);
+        $stm->bindParam("motivo_cita" , $data->motivo_cita);
+        $stm->execute();
+        $result = $con->lastInsertId();
+        return $result;
+    }
+
+    public function delete($id , $con){
+        $sql = "DELETE FROM citas WHERE citas.idCita = :id";
+        $stm = $con->prepare($sql);
+        $stm->bindParam("id" , $id);
+        $stm->execute();
+    }
+
+}
+
+?>

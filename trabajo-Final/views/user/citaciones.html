@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Citas - Mi Sitio Web</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/modal.css">
+    <link rel="stylesheet" href="../../css/componentes.css" />
+
+</head>
+<body>
+
+    <div class="" id="header-container"></div>
+    <main class="main-content" style="padding-top: 4rem;">
+        <h2>Gestión de Citas</h2>
+        
+        <!-- Formulario para nueva cita -->
+        <div class="form-container">
+            <h3>Solicitar Nueva Cita</h3>
+            <form  class="form" id="form_cita">
+                
+                <div class="form-group">
+                    <label for="fecha_cita">Fecha de la Cita</label>
+                    <input type="date" id="fecha_cita" name="fecha_cita">
+                </div>
+                
+                <div class="form-group">
+                    <label for="motivo_cita">Motivo de la Cita</label>
+                    <textarea id="motivo_cita" name="motivo_cita" placeholder="Describe el motivo de tu cita"></textarea>
+                </div>
+                
+                <button id="btn_create_cita" class="btn btn-primary">Solicitar Cita</button>
+            </form>
+        </div>
+        
+        <!-- Lista de citas -->
+        <div class="citas-container">
+            <h3>Mis Citas</h3>
+                <div class="citas-grid">
+                        
+                        <div class="cita-card">
+                            
+                            
+                        </div>
+                   
+                </div>
+        </div>
+    </main>
+    
+    <!-- Modal para editar cita -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Editar Cita</h3>
+            <form method="POST" class="form">
+                <input type="hidden" name="action" value="editar">
+                <input type="hidden" name="idCita" id="edit_idCita">
+                
+                <div class="form-group">
+                    <label for="edit_fecha_cita">Fecha de la Cita</label>
+                    <input type="date" id="edit_fecha_cita" name="fecha_cita"  required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_motivo_cita">Motivo de la Cita</label>
+                    <textarea id="edit_motivo_cita" name="motivo_cita"></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Actualizar Cita</button>
+            </form>
+        </div>
+    </div>
+     <script src="../../js/load.js"></script>
+    <script src="../../js/citas.js"></script>
+    <script src="../../js/auth.js"></script>
+</body>
+</html>
