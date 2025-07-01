@@ -102,6 +102,26 @@ require_once '../models/CitasModel.php';
         }
     }
 
+    public function get_table_citas_by_user(){
+        requireAdmin();
+        $idUser = $_POST["idUser"] ?? "";
+        $con = conexion();
+        if(!empty($idUser)){
+            $citasModel = new CitasModel();
+            $citas = $citasModel->get_all_citas_by_user($idUser , $con);
+            if($citas > 0){
+                foreach($citas as $cita){
+                    echo "<tr>
+                            <td>".$cita["idCita"]."</td>
+                            <td>".$cita["fecha_cita"]."</td>
+                            <td>".$cita["motivo_cita"]."</td>
+                            <td></td>
+                        </tr>";
+                }
+            }
+        }
+    }
+
  }
 
  $citas = new Citas();
@@ -125,6 +145,9 @@ require_once '../models/CitasModel.php';
          break;
     case 'delete_cita':
         $citas->delete_cita();
+        break;
+    case 'get_table_citas_by_user':
+        $citas->get_table_citas_by_user();
         break;
      default:
          echo "Error: Acción no reconocida.";

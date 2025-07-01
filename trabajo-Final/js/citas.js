@@ -11,11 +11,42 @@ load_citas = () => {
         })
             .then(response => response.text())
             .then(data => {
+                if(data ==="admin"){
+                    alert("Requiere Rol admin");
+                }else{
                 document.getElementById("table_user_by_citas").innerHTML = data;
-
+                load_citas_by_user();
+                }
             });
     }
 
+}
+
+load_citas_by_user= () => {
+const table = document.getElementById("table_user_all");
+if(table){
+    table.addEventListener("click" , (e) => {
+        const btn = e.target.closest(".btn-rounded-success")
+        if(btn){
+            document.getElementById("visual_tabla_citas_by_user").style.display="block";
+            const idUser = btn.getAttribute("data-id");
+            const formData = new FormData()
+            formData.append("title" , "get_table_citas_by_user");
+            formData.append("idUser" , idUser);
+            fetch("../../presenters/Citas.php",{
+                method:"POST",
+                body: formData
+            }).then(response => response.text())
+            .then(data => {
+                if(data === "admin"){
+                    alert("Requiere rol admin");
+                }else {
+                    document.getElementById("table_body_citas_by_user").innerHTML = data;
+                }
+            })
+        }
+    })
+}
 }
 
 event_cita_card = () => {

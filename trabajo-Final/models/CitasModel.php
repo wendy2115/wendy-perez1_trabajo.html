@@ -27,9 +27,9 @@ class CitasModel{
     }
 
     public function get_user_by_citas($con){
-        $sql = "SELECT ud.* , ul.rol FROM users_data ud 
-        INNER JOIN users_login ul ON ul.idUser = ud.idUser
-        INNER JOIN citas c ON c.idUser = ud.idUser";
+        $sql = "SELECT ud.idUser , ud.nombre , ud.apellidos FROM users_data ud 
+        INNER JOIN citas c ON c.idUser = ud.idUser 
+        group by ud.idUser , ud.nombre, ud.apellidos";
         $stm = $con->prepare($sql);
         $stm->execute();
         $result = $stm->fetchAll();

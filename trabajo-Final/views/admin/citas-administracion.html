@@ -20,11 +20,13 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <table id="table_user_all" class="modern-table">
+                    <div class="table-container">
+                        <table id="table_user_all" class="modern-table">
                         <thead>
                             <tr>
                                 <th>Código</th>
                                 <th>Usuario</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="table_user_by_citas">
@@ -32,6 +34,26 @@
                         </tbody>
 
                     </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" id="visual_tabla_citas_by_user" style="display: none;">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-container">
+                        <table class="modern-table" id="tabla_citas_by_user">
+                            <thead>
+                                <th>#Cita</th>
+                                <th>Fecha</th>
+                                <th>Motivo</th>
+                                <th></th>
+                            </thead>
+                            <tbody id="table_body_citas_by_user">
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
