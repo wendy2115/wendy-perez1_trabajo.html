@@ -2,7 +2,7 @@
 session_start();
 
 // Configuración de base de datos
-define('DB_HOST', '192.168.1.103');
+define('DB_HOST', '192.168.165.124');
 define('DB_USER', 'final');
 define('DB_PASS', 'Lp1221jo');
 define('DB_NAME', 'site_web');
@@ -39,7 +39,7 @@ function requireLogin() {
 
 function requireAdmin() {
     if (!isAdmin()) {
-        header('Location: index.php');
+        echo "admin";
         exit;
     }
 }

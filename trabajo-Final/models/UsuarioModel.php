@@ -2,7 +2,49 @@
 
 class UsuarioModel{
 
-    
+    public function find_by_idUser($idUser, $con){
+        $sql = "SELECT * FROM users_data 
+        INNER JOIN users_login ON users_login.idUser = users_data.idUser
+        WHERE users_data.idUser = :idUser";
+        $stm = $con->prepare($sql);
+        $stm->bindParam("idUser" , $idUser);
+        $stm->execute();
+        $result = $stm->fetch();
+
+        return $result;
+    }
+
+    public function updated_password($pass , $id , $con){
+        $sql = "UPDATE  users_login set password = :password WHERE idLogin = :idLogin";
+        $stm = $con->prepare($sql);
+        $stm->bindParam("password", $pass);
+        $stm->bindParam("idLogin" , $id);
+        if($stm->execute()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function updated_user($data , $con){
+        $sql = "UPDATE users_data set nombre=:nombre , apellidos=:apellidos , email=:email , 
+        telefono = :telefono, fecha_nacimiento = :fecha_nacimiento , direccion = :direccion , sexo = :sexo
+         WHERE idUser = :idUser";
+         $stm = $con->prepare($sql);
+         $stm->bindParam("idUser" , $data->idUser);
+         $stm->bindParam("nombre" , $data->nombre);
+         $stm->bindParam("apellidos" , $data->apellidos);
+         $stm->bindParam("email" , $data->email);
+         $stm->bindParam("telefono" , $data->telefono);
+         $stm->bindParam("fecha_nacimiento" , $data->fecha_nacimiento);
+         $stm->bindParam("direccion" , $data->direccion);
+         $stm->bindParam("sexo" , $data->sexo);
+        if($stm->execute()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public function find_by_username($username, $con){
         $sql = "SELECT ul.*, ud.idUser FROM users_login ul

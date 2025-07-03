@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/modal.css">
+    <link rel="stylesheet" href="../css/componentes.css" />
+    <link rel="stylesheet" href="../css/button.css" />
+</head>
+<body>
+
+    <div id="header-container"></div>
+<main class="main-content" style="padding-top: 4rem;">
+    <h2>Perfil de Usuario</h2>
+
+    <div class="form-container">
+        <h3>Actualizar Información de Perfil</h3>
+        <form class="form" id="form_perfil">
+            <!--<div class="form-group">
+             <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre">
+            </div>
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" name="email" placeholder="Ingresa tu correo electrónico">
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="Ingresa tu número de teléfono">
+            </div>
+            <button id="btn_update_perfil" class="btn btn-primary">Actualizar Perfil</button>-->
+        </form>
+    </div>  
+
+</main>
+
+
+<div id="contasenamodal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close_modal_contrasena">&times;</span>
+            <h3>Cambiar Contraseña</h3>
+            <form  class="form" id="form_contrasena"> 
+                
+                <div class="form-group">
+                    <label for="contrasena">Contraseña anterior</label>
+                    <input type="password" id="contrasena" name="contrasena">
+                </div>
+                
+                <div class="form-group">
+                    <label for="new_contrasena">Nueva contraseña</label>
+                    <input type="password" id="new_contrasena" name="new_contrasena">
+                </div>
+                
+                <button class="btn btn-primary" id="btn_updated">Actualizar Contraseña</button>
+            </form>
+        </div>
+    </div>
+    <script src="../js/load.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/perfil.js"></script>
+</body>
+</html>
