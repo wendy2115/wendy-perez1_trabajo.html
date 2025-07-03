@@ -82,7 +82,7 @@ require_once '../models/CitasModel.php';
     }
 
     public function delete_cita(){
-        requireLogin();
+        requireAdmin();
         $citasModel = new CitasModel();
         $con = conexion();
         if(isset($_POST['idCita'])){
@@ -94,11 +94,14 @@ require_once '../models/CitasModel.php';
             $result = $citasModel->delete($idCita, $con);
             if($result){
                 echo "success";
+                exit;
             }else{
                 echo "Error al eliminar la cita: ".$result;
+                exit;
             }
         }else{
             echo "Error: Datos incompletos.";
+            exit;
         }
     }
 
@@ -115,7 +118,10 @@ require_once '../models/CitasModel.php';
                             <td>".$cita["idCita"]."</td>
                             <td>".$cita["fecha_cita"]."</td>
                             <td>".$cita["motivo_cita"]."</td>
-                            <td></td>
+                            <td>
+                            <button class='btn-rounded-success' data-item='".json_encode($cita)."' id='admin_edit_cita'><i class='fa-solid fa-pencil'></i></button>
+                            <button class='btn-rounded-danger' data-id='".$cita["idCita"]."' id='admin_delete_cita'><i class='fa-solid fa-trash'></i></button>
+                            </td>
                         </tr>";
                 }
             }

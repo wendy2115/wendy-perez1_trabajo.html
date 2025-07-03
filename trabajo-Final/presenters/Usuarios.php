@@ -41,9 +41,9 @@ class Usuario{
 
     public function user_by_citas(){
         requireAdmin();
-        $citasModels = new CitasModel();
+        $citasModels = new UsuarioModel();
         $con = conexion();
-        $get_user_by_citas = $citasModels->get_user_by_citas($con);
+        $get_user_by_citas = $citasModels->get_all_users_data($con);
         $table = "";
         if($get_user_by_citas > 0){
             foreach($get_user_by_citas as $item){
