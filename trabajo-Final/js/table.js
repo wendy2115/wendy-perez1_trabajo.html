@@ -29,8 +29,23 @@ function delete_user(){
 
             if(confirm("¿Estas seguro de eliminar el registro?")){
                 //console.log(id)
-                const row = btn.closest("tr")
-                row.remove();
+                const formData = new FormData();
+                formData.append("title" , "delete_user");
+                formData.append("idUser" , id);
+                fetch("../../presenters/Usuarios.php",{
+                    method:"POST",
+                    body: formData
+                }).then(response =>response.text())
+                .then(data => {
+                    if(data ==="eliminado"){
+                        alert("Eliminado con éxito");
+                        const row = btn.closest("tr")
+                        row.remove();
+                    }else{
+                        alert("Error al eliminar")
+                    }
+                })
+                
             }
         }else if(e.target.closest(".btn-rounded-success")){
             const edit = e.target.closest(".btn-rounded-success")

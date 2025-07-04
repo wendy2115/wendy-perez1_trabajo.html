@@ -56,6 +56,24 @@ class Usuario{
             echo $table;
         }
     }
+
+    public function delete_user(){
+        $con = conexion();
+        $usuarioModel = new UsuarioModel();
+        try {
+            //code...
+           $delete =  $usuarioModel->delete($_POST["idUser"] , $con);
+            if($delete){
+
+            echo "eliminado";
+            exit;
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            echo $th->getMessage();
+            exit;
+        }
+    }
 }
 
 $title = $_POST["title"];
@@ -69,6 +87,10 @@ switch($title){
         break;
     case "user_by_citas":
         $usuario->user_by_citas();
+        break;
+    case "delete_user":
+        requireAdmin();
+        $usuario->delete_user();
         break;
     default:
         echo "No existe";

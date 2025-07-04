@@ -18,7 +18,7 @@ function login() {
             const usuario = document.getElementById('usuario').value;
             const password = document.getElementById('password').value;
             const formData = new FormData(document.getElementById("form_login"))
-            formData.append("title" , "login");
+            formData.append("title", "login");
             //alistamos los datos para enviarlos al login.php
             fetch('../../presenters/Login.php', {
                 method: 'POST',
@@ -32,7 +32,7 @@ function login() {
                         alert_error(data);
                     } else if (data === "Error en credenciales") {
                         alert_error(data);
-                    }else if(data ==="ok"){
+                    } else if (data === "ok") {
                         window.location.href = "/views/index.html"
                     }
                 })
@@ -45,48 +45,60 @@ function register() {
         btn_register.addEventListener('click', function (e) {
             e.preventDefault();
             const formData = new FormData(document.getElementById("form_register_user"));
-            formData.append("title" , "create_user");
-            fetch('../../presenters/Login.php',{
-                method:'POST',
+            formData.append("title", "create_user");
+            fetch('../../presenters/Login.php', {
+                method: 'POST',
                 body: formData
             }).then(response => response.text())
-            .then(data=>{
-                if(data === "No puede haber campos vacios"){
-                    alert_error(data)
-                }
-                else if(data === "creado"){
-                    //document.getElementById("form_register_user").clearForm();
-                    alert_success(data , "register")
-                }
-                else if(data ==="Error ya existe el usuario"){
-                    alert_error(data);
-                }else if(data === "Error ya existe el email"){
-                    alert_error(data);
-                }
-                else{
-                    alert_error(data)
-                }
-            }).catch(error=>{
-                //console.log(error)
-            })
+                .then(data => {
+                    if (data === "No puede haber campos vacios") {
+                        alert_error(data)
+                    }
+                    else if (data === "external") {
+                        //document.getElementById("form_register_user").clearForm();
+                        alert_success(data, "register")
+                    }
+                    else if(data ==="admin_register"){
+                        alert_success(data , "admin")
+                    }
+                    else if (data === "Error ya existe el usuario") {
+                        alert_error(data);
+                    } else if (data === "Error ya existe el email") {
+                        alert_error(data);
+                    }
+                    else {
+                        alert_error(data)
+                    }
+                }).catch(error => {
+                    //console.log(error)
+                })
         })
     }
 }
 
-function alert_success(data , origen){
+function alert_success(data, origen) {
     const alert = document.getElementById('alert-success');
-    if(alert){
-        alert.innerHTML = data;
+    if (alert) {
+        alert.innerHTML = "creado";
         alert.style.display = 'block';
 
         setTimeout(() => {
             alert.style.display = 'none'
-            switch(origen){
+            switch (origen) {
                 case "register":
-                    window.location.href="/views/auth/login.html";
-                break;
+                    window.location.href = "/views/auth/login.html";
+                    break;
+
+                case "admin":
+                    const close_modal = document.getElementById("createModal");
+                    if (close_modal) {
+                        close_modal.style.display = "none";
+                        load_usuarios();
+                    }
+                    break;
             }
-        } , 4000)
+        }, 4000)
+
     }
 }
 

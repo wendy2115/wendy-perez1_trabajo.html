@@ -107,4 +107,4 @@ init = () => {
     cambiar_contrasena();
 }
 
-document.addEventListener('DOMContentLoaded', init());
+document.addEventListener('DOMContentLoaded', init);

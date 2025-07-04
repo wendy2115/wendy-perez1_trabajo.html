@@ -112,5 +112,19 @@ class UsuarioModel{
             echo "error ul";
         }
     }
+
+    public function delete($idUser , $con){
+        $sql = "DELETE FROM users_login WHERE idUser = :idUser";
+        $stm = $con->prepare($sql);
+        $stm->bindParam("idUser" , $idUser);
+        if($stm->execute()){
+            $sql2 = "DELETE FROM users_data WHERE idUser = :idUser";
+            $stm2 = $con->prepare($sql2);
+            $stm2->bindParam("idUser" , $idUser);
+            if($stm2->execute()){
+                return true;
+            }
+        }
+    }
 }
 ?>

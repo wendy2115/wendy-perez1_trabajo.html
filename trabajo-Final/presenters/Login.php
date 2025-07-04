@@ -83,7 +83,11 @@ class Login{
             }
         
             $usuarioModel->create_user_data($info , $con);
-            echo "creado";
+            if(isAdmin()){
+                echo "admin_register";
+                exit;
+            }
+            echo "register";
             exit;
         } catch (\Throwable $th) {
             echo "error creando: ".$th;
@@ -234,7 +238,7 @@ switch($title){
         $login->login_user();
         break;
     case "create_user":
-        $login->create_user_external();
+        $login->create_user();
         break;
     case "isLogin":
         $login->isLogin();
