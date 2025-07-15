@@ -1,49 +1,53 @@
 <?php
+// Incluye el archivo de configuración principal
 require_once('../core/config.php');
+// Incluye el modelo de usuario
 require_once('../models/UsuarioModel.php');
-//Creamos la clase Login
+
+// Creamos la clase Login para manejar autenticación y registro
 class Login{
 
-    //creamos la funcion login
+    // Función para iniciar sesión de usuario
     public function login_user(){
-        //instanciamos las variables enviadas por post desde javascript
+        // Instancia las variables enviadas por POST desde JavaScript
         $usuario = $_POST['usuario'] ?? '';
         $password = $_POST['password'] ?? '';
-        //validamos que no hayan campos vacios
+        // Valida que no hayan campos vacíos
         if(empty($usuario) || empty($password)){
-            //si existen campos vacios imprimimos el error
+            // Si existen campos vacíos imprime el error
             echo "Error campos vacios";
             exit;
         }else{
-            //instanaciamos la conexion a la base de datos
+            // Instancia la conexión a la base de datos
             $con = conexion();
-            //instanciamos la clase de UsuarioModel
+            // Instancia la clase de UsuarioModel
             $usuarioModel = new UsuarioModel();
-            //guardamos el resultado de la consulta a la base de datos en una variable
+            // Guarda el resultado de la consulta a la base de datos en una variable
             $usuario = $usuarioModel->find_by_username($usuario , $con);
+            // Si no existe el usuario, muestra error de credenciales
             if(empty($usuario)){
                 echo "Error en credenciales";
                 exit;
             }
-            //validar contraseña
+            // Valida la contraseña
             if($this->validate_hash($password , $usuario["password"])){
+                // Si la contraseña es correcta, guarda datos en la sesión
                 $_SESSION["user_id"] = $usuario["idUser"];
                 $_SESSION["rol"] = $usuario["rol"];
                 echo "ok";
                 exit;
             }else{
+                // Si la contraseña es incorrecta, muestra error
                 echo "Error en credenciales";
                 exit;
             }
-
-            
         }
-
     }
 
+    // Función para crear un nuevo usuario
     public function create_user(){
-        $con = conexion();
-        //creamos un object
+        $con = conexion(); // Obtiene la conexión a la base de datos
+        // Crea un objeto para almacenar la información del usuario
         $info = new StdClass();
         $info->nombre = $_POST["nombre"] ?? "";
         $info->apellidos = $_POST["apellidos"] ?? "";
@@ -54,53 +58,63 @@ class Login{
         $info->sexo = $_POST["sexo"] ?? "";
         $info->usuario = $_POST["usuario"] ?? "";
         $info->password = $_POST["password"] ?? "";
+        // Si es admin, asigna el rol recibido, si no, asigna 'user'
         if(isAdmin()){
             $info->rol = $_POST["rol"] ?? "";
         }else{
             $info->rol = "user";
         }
-        
+        // Valida que no haya campos vacíos
         if(empty($info->nombre) || empty($info->apellidos) || empty($info->email) || 
         empty($info->telefono) || empty($info->fecha_nacimiento) || empty($info->direccion)
         || empty($info->sexo) || empty($info->usuario) || empty($info->password)){
             echo "No puede haber campos vacios";
             exit;
         }
+        // Genera el hash de la contraseña
         $info->password = $this->generate_hash($info->password);
-        $usuarioModel = new UsuarioModel();
+        $usuarioModel = new UsuarioModel(); // Instancia el modelo de usuario
         try{
-            
+            // Verifica si el usuario ya existe por nombre de usuario
             $userlogin = $usuarioModel->find_by_username($info->usuario ,$con);
-            
             if(!empty($userlogin)){
                 echo "Error ya existe el usuario";
                 exit;
             }
+            // Verifica si el email ya existe
             $userData = $usuarioModel->find_by_email($info->email , $con);
             if(!empty($userData)){
                 echo "Error ya existe el email";
                 exit;
             }
-        
+            // Crea el usuario en la base de datos
             $usuarioModel->create_user_data($info , $con);
-            echo "creado";
+            // Si es admin, muestra mensaje especial
+            if(isAdmin()){
+                echo "admin_register";
+                exit;
+            }
+            // Si es usuario normal, muestra mensaje de registro
+            echo "register";
             exit;
         } catch (\Throwable $th) {
+            // Muestra mensaje de error si ocurre una excepción
             echo "error creando: ".$th;
-
             exit;
         }
-
     }
 
+    // Función privada para generar hash de contraseña
     private function generate_hash($password){
         return password_hash($password , PASSWORD_DEFAULT);
     }
 
+    // Función privada para validar hash de contraseña
     private function validate_hash($password , $hasPassword){
         return password_verify($password , $hasPassword);
     }
 
+    // Verifica si el usuario está logueado
     public function isLogin(){
         if(isLoggedIn()){
             echo "1";
@@ -109,6 +123,7 @@ class Login{
         }
     }
 
+    // Verifica si el usuario logueado es admin
     public function isLoginAdmin(){
         if(isAdmin()){
             echo "1";
@@ -117,19 +132,22 @@ class Login{
         }
     }
 
+    // Cierra la sesión del usuario
     public function logout(){
         session_destroy();
     }
 
+    // Muestra el perfil del usuario logueado
     public function perfil(){
-        requireLogin();
-        $con = conexion();
-        $usuarioModel = new UsuarioModel();
-        $user = $usuarioModel->find_by_idUser($_SESSION["user_id"] , $con);
+        requireLogin(); // Verifica que el usuario esté logueado
+        $con = conexion(); // Obtiene la conexión a la base de datos
+        $usuarioModel = new UsuarioModel(); // Instancia el modelo de usuario
+        $user = $usuarioModel->find_by_idUser($_SESSION["user_id"] , $con); // Obtiene los datos del usuario
         if(empty($user)){
             echo "Error al recuperar el usuario";
             exit;
         }
+        // Genera el formulario HTML con los datos del usuario
         $data = '<div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" name="nombre" value="'.$user["nombre"].'" placeholder="Ingresa tu nombre">
@@ -169,13 +187,16 @@ class Login{
         exit;
     }
 
+    // Actualiza la contraseña del usuario logueado
     public function update_contrasena(){
-        requireLogin();
-        $con = conexion();
+        requireLogin(); // Verifica que el usuario esté logueado
+        $con = conexion(); // Obtiene la conexión a la base de datos
+        // Verifica que se hayan enviado las contraseñas por POST
         if(isset($_POST["contrasena"]) && isset($_POST["new_contrasena"])){
             $idUser = $_SESSION["user_id"];
             $usuarioModel = new UsuarioModel();
             $userLogin = $usuarioModel->find_by_idUser($idUser , $con);
+            // Valida la contraseña actual
             if($this->validate_hash($_POST["contrasena"] , $userLogin["password"])){
                 $password = $this->generate_hash($_POST["new_contrasena"]);
                 $id = $userLogin["idLogin"];
@@ -188,17 +209,17 @@ class Login{
             }else{
                 echo "Actual contraseña no coincide";
             }
-
         }else{
             echo "Datos incompletos";
             exit;
         }
     }
 
+    // Actualiza el perfil del usuario logueado
     public function actualizar_perfil(){
-        requireLogin();
-        $con = conexion();
-        $info = new StdClass();
+        requireLogin(); // Verifica que el usuario esté logueado
+        $con = conexion(); // Obtiene la conexión a la base de datos
+        $info = new StdClass(); // Crea un objeto para los datos del usuario
         $info->idUser = $_SESSION["user_id"];
         $info->nombre = $_POST["nombre"] ?? "";
         $info->apellidos = $_POST["apellidos"] ?? "";
@@ -207,14 +228,15 @@ class Login{
         $info->fecha_nacimiento = $_POST["fecha_nacimiento"] ?? ""; 
         $info->direccion = $_POST["direccion"] ?? "";
         $info->sexo = $_POST["sexo"] ?? "";
+        // Valida que no haya campos vacíos
         if(empty($info->nombre) || empty($info->apellidos) || empty($info->email) || 
         empty($info->telefono) || empty($info->fecha_nacimiento) || empty($info->direccion)
         || empty($info->sexo)){
             echo "No puede haber campos vacios";
             exit;
         }
-        $usuarioModel = new UsuarioModel();
-        $result = $usuarioModel->updated_user($info , $con);
+        $usuarioModel = new UsuarioModel(); // Instancia el modelo de usuario
+        $result = $usuarioModel->updated_user($info , $con); // Actualiza el usuario en la base de datos
         if($result){
             echo "success";
             exit;
@@ -222,19 +244,19 @@ class Login{
     }
 }
 
-//recuperamos el post title
+// Recupera el post title para saber qué acción ejecutar
 $title = $_POST['title'];
-//instanciamos la clase Login
+// Instancia la clase Login
 $login = new Login();
-//creamos un switch para saber que funcion usar de acuerdo a la variable title
+// Crea un switch para saber qué función usar de acuerdo a la variable title
 switch($title){
-    //en caso de login se ejecuta la funcion login
+    // En caso de login se ejecuta la función login
     case "login":
-        //ejecutamos la funcion login
+        // Ejecuta la función login
         $login->login_user();
         break;
     case "create_user":
-        $login->create_user_external();
+        $login->create_user();
         break;
     case "isLogin":
         $login->isLogin();
@@ -255,6 +277,7 @@ switch($title){
         $login->logout();
         break;
     default:
+    // Muestra mensaje si el título no es reconocido
     echo "Title no reconocido: ".$title;
     exit;
 }

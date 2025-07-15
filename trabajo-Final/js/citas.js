@@ -1,88 +1,98 @@
-let idUser;
+let idUser; // Variable global para almacenar el id del usuario seleccionado
 
+// Función para cargar la tabla de usuarios con citas
 load_citas = () => {
-    const table = document.getElementById("table_user_all");
+    const table = document.getElementById("table_user_all"); // Obtiene la tabla de usuarios
 
-    if (table) {
-
-        fetch('../../presenters/Usuarios.php', {
-            method: 'POST',
-            body: new URLSearchParams({ 'title': 'user_by_citas' })
+    if (table) { // Si existe la tabla
+        fetch('../../presenters/Usuarios.php', { // Hace petición al backend
+            method: 'POST', // Método POST
+            body: new URLSearchParams({ 'title': 'user_by_citas' }) // Envía el parámetro para obtener usuarios por citas
         })
-            .then(response => response.text())
+            .then(response => response.text()) // Convierte la respuesta a texto
             .then(data => {
-                if(data ==="admin"){
+                if(data ==="admin"){ // Si requiere rol admin
                     alert("Requiere Rol admin");
                 }else{
-                document.getElementById("table_user_by_citas").innerHTML = data;
-                load_citas_by_user();
+                    document.getElementById("table_user_by_citas").innerHTML = data; // Inserta los datos en la tabla
+                    load_citas_by_user(); // Inicializa el evento para cargar citas por usuario
                 }
             });
     }
 
 }
 
+// Agrega evento para cargar citas de un usuario al hacer click en la tabla
 load_citas_by_user= () => {
-const table = document.getElementById("table_user_all");
-if(table){
-    table.addEventListener("click" , (e) => {
-        const btn = e.target.closest(".btn-rounded-success")
-        if(btn){
-            document.getElementById("visual_tabla_citas_by_user").style.display="block";
-            idUser = btn.getAttribute("data-id"); 
-            load_citas_by_user_table(idUser);
-            
+    const table = document.getElementById("table_user_all"); // Obtiene la tabla de usuarios
+    if(table){
+        table.addEventListener("click" , (e) => { // Agrega evento click a la tabla
+            const btn = e.target.closest(".btn-rounded-success") // Busca el botón de acción
+            if(btn){
+                document.getElementById("visual_tabla_citas_by_user").style.display="block"; // Muestra la tabla de citas por usuario
+                idUser = btn.getAttribute("data-id"); // Obtiene el id del usuario
+                load_citas_by_user_table(idUser); // Carga las citas del usuario
+            }
+        })
+    }
+}
+
+// Carga la tabla de citas de un usuario específico
+load_citas_by_user_table = (id) => {
+    const formData = new FormData() // Crea un FormData
+    formData.append("title" , "get_table_citas_by_user"); // Agrega el parámetro de acción
+    formData.append("idUser" , id); // Agrega el id del usuario
+    fetch("../../presenters/Citas.php",{
+        method:"POST", // Método POST
+        body: formData // Envía el FormData
+    }).then(response => response.text()) // Convierte la respuesta a texto
+    .then(data => {
+        if(data === "admin"){ // Si requiere admin
+            alert("Requiere rol admin");
+        }else {
+            document.getElementById("table_body_citas_by_user").innerHTML = data; // Inserta las citas en la tabla
+            edit_cita_modal(); // Inicializa eventos de edición/eliminación
         }
     })
 }
-}
-load_citas_by_user_table = (id) => {
-    const formData = new FormData()
-            formData.append("title" , "get_table_citas_by_user");
-            formData.append("idUser" , id);
-            fetch("../../presenters/Citas.php",{
-                method:"POST",
-                body: formData
-            }).then(response => response.text())
-            .then(data => {
-                if(data === "admin"){
-                    alert("Requiere rol admin");
-                }else {
-                    document.getElementById("table_body_citas_by_user").innerHTML = data;
-                    edit_cita_modal();
-                }
-            })
-}
 
+// Agrega eventos a las tarjetas de cita para editar o eliminar
 event_cita_card = () => {
-    const card = document.querySelector(".cita-card").addEventListener("click", (e) => {
-
-        if (e.target.closest("#btn_delete_cita")) {
-            delete_cita(e);
-        } else if (e.target.closest("#btn_cita_editar")) {
-            edita_cita(e);
+    const card = document.querySelector(".cita-card");
+    if(card){
+        card.replaceWith(card.cloneNode(true))
+        const newCard = document.querySelector(".cita-card")
+        newCard.addEventListener("click", (e) => { // Evento click en la tarjeta
+        if (e.target.closest("#btn_delete_cita")) { // Si se hace click en eliminar
+            delete_cita(e); // Llama a eliminar cita
+        } else if (e.target.closest("#btn_cita_editar")) { // Si se hace click en editar
+            edita_cita(e); // Llama a editar cita
         }
-
     });
+    }
 }
 
+// Abre el modal de edición de cita y carga los datos en el formulario
 edita_cita = (e) => {
-    const btn = e.target.closest("#btn_cita_editar");
-    const citaData = JSON.parse(btn.getAttribute("data-cita"));
-    const form = document.getElementById("edit_cita_form");
+    const btn = e.target.closest("#btn_cita_editar"); // Obtiene el botón de editar
+    const citaData = JSON.parse(btn.getAttribute("data-cita")); // Obtiene los datos de la cita
+    const form = document.getElementById("edit_cita_form"); // Obtiene el formulario de edición
     if (form) {
-        form.querySelector("#edit_idCita").value = citaData.idCita;
-        form.querySelector("#edit_fecha_cita").value = citaData.fecha_cita;
-        form.querySelector("#edit_motivo_cita").value = citaData.motivo_cita;
+        form.querySelector("#edit_idCita").value = citaData.idCita; // Llena el id de la cita
+        form.querySelector("#edit_fecha_cita").value = citaData.fecha_cita; // Llena la fecha
+        form.querySelector("#edit_motivo_cita").value = citaData.motivo_cita; // Llena el motivo
     } else {
         console.error("Form no encontrado");
     }
-    const modal = document.getElementById("editModal");
+    const modal = document.getElementById("editModal"); // Obtiene el modal de edición
     if (modal) {
-        modal.style.display = "block";
-        closeModalEdit();
-        if(document.getElementById("btn_updated")){
-            document.getElementById("btn_updated").addEventListener("click", (e) => {
+        modal.style.display = "block"; // Muestra el modal
+        closeModalEdit(); // Inicializa evento para cerrar modal
+        const btn_edit = document.getElementById("btn_updated");
+        if(btn_edit){
+            btn_edit.replaceWith(btn_edit.cloneNode(true));
+            const newbtn_edi = document.getElementById("btn_updated")
+            newbtn_edi.addEventListener("click", (e) => { // Evento para actualizar cita
                 e.preventDefault();
                 const formData = new FormData();
                 formData.append('idCita', form.querySelector("#edit_idCita").value);
@@ -112,34 +122,35 @@ edita_cita = (e) => {
     }
 }
 
+// Cierra el modal de edición de cita y resetea el formulario
 closeModalEdit = () => {
-    const close = document.getElementById("closeModal");
+    const close = document.getElementById("closeModal"); // Obtiene el botón de cerrar modal
     if (close) {
-        close.addEventListener("click", () => {
-            const modal = document.getElementById("editModal");
+        close.addEventListener("click", () => { // Evento click para cerrar
+            const modal = document.getElementById("editModal"); // Obtiene el modal
             if (modal) {
-                modal.style.display = "none";
-                const form = document.getElementById("edit_cita_form");
+                modal.style.display = "none"; // Oculta el modal
+                const form = document.getElementById("edit_cita_form"); // Obtiene el formulario
                 if (form) {
-                    form.reset();
+                    form.reset(); // Resetea el formulario
                 }
             }
         });
     }
 }
 
+// Elimina una cita seleccionada
 delete_cita = (e) => {
-    const btn = e.target.closest("#btn_delete_cita");
-    const citaId = btn.getAttribute("data-id");
+    const btn = e.target.closest("#btn_delete_cita"); // Obtiene el botón de eliminar
+    const citaId = btn.getAttribute("data-id"); // Obtiene el id de la cita
 
-    if (confirm("¿Estás seguro de eliminar esta cita?")) {
+    if (confirm("¿Estás seguro de eliminar esta cita?")) { // Confirma la eliminación
         fetch('../../presenters/Citas.php', {
             method: 'POST',
-            body: new URLSearchParams({ 'title': 'delete_cita', 'idCita': citaId })
+            body: new URLSearchParams({ 'title': 'delete_cita', 'idCita': citaId }) // Envía los datos
         })
             .then(response => response.text())
             .then(data => {
-                console.log(data);
                 if (data === "success") {
                     alert("Cita eliminada exitosamente.");
                     load_citas_user();
@@ -154,20 +165,21 @@ delete_cita = (e) => {
     }
 }
 
+// Guarda una nueva cita desde el formulario
 saveCita = () => {
-    const btn = document.getElementById("btn_create_cita");
+    const btn = document.getElementById("btn_create_cita"); // Obtiene el botón de crear cita
     if (btn) {
-        btn.addEventListener("click", (e) => {
+        btn.addEventListener("click", (e) => { // Evento click para crear cita
             e.preventDefault();
-            const form = document.getElementById("form_cita");
-            const formData = new FormData(form);
-            formData.append('title', 'cita_create');
+            const form = document.getElementById("form_cita"); // Obtiene el formulario
+            const formData = new FormData(form); // Crea FormData con los datos del formulario
+            formData.append('title', 'cita_create'); // Agrega el parámetro de acción
             fetch('../../presenters/Citas.php', {
                 method: 'POST',
                 body: formData
             })
                 .then(response => response.text())
-                .then(data => {
+                .then (data => {
                     //console.log(data);
                     if (data === "success") {
                         alert("Cita creada exitosamente.");
@@ -185,12 +197,13 @@ saveCita = () => {
     }
 }
 
+// Carga las citas del usuario actual y agrega eventos a las tarjetas
 load_citas_user = () => {
-    const citaCad = document.querySelector(".cita-card");
+    const citaCad = document.querySelector(".cita-card"); // Obtiene el contenedor de las citas
     if (citaCad) {
         fetch('../../presenters/Citas.php', {
             method: 'POST',
-            body: new URLSearchParams({ 'title': 'citas_user' })
+            body: new URLSearchParams({ 'title': 'citas_user' }) // Envía el parámetro para obtener citas del usuario
         })
             .then(response => response.text())
             .then(data => {
@@ -198,40 +211,44 @@ load_citas_user = () => {
                     window.location.href = "../../views/auth/login.html";
                     return;
                 }
-                citaCad.innerHTML = data;
-                event_cita_card();
+                citaCad.innerHTML = data; // Inserta las citas en el contenedor
+                event_cita_card(); // Inicializa eventos de edición/eliminación
             })
             .catch(error => console.error('Error al cargar citas:', error));
     }
 }
 
 //administracion
-open_modal_cita_admin = (e) => {
-    const btn = document.getElementById("btn_open_create_cita");
-    if(btn){
-        
-        btn.addEventListener("click" , () => {
-            const create = document.getElementById("create_cita_admin")
-            create.innerHTML = "Crear Cita";
-            const modal = document.getElementById("modal_cita_create")
-            if(modal){
-                modal.style.display = "block";
-                closeModalAdmin();
 
-                create_cita_admin();
+// Abre el modal para crear cita como admin
+open_modal_cita_admin = (e) => {
+    const btn = document.getElementById("btn_open_create_cita"); // Obtiene el botón para abrir el modal
+    if(btn){
+        btn.addEventListener("click" , () => { // Evento click para abrir modal
+            const create = document.getElementById("create_cita_admin") // Obtiene el botón de crear cita en el modal
+            create.innerHTML = "Crear Cita"; // Cambia el texto del botón
+            const modal = document.getElementById("modal_cita_create") // Obtiene el modal
+            if(modal){
+                modal.style.display = "block"; // Muestra el modal
+                closeModalAdmin(); // Inicializa evento para cerrar modal
+                create_cita_admin(); // Inicializa evento para crear cita
             }
         })
     }
 }
+
+// Crea o actualiza una cita como admin
 create_cita_admin = () => {
-    const btn = document.getElementById("create_cita_admin");
+    const btn = document.getElementById("create_cita_admin"); // Obtiene el botón de crear/actualizar cita
     if(btn){
-        btn.addEventListener("click" , (e) => {
+        btn.replaceWith(btn.cloneNode(true))
+        const newEdit = document.getElementById("create_cita_admin");
+        newEdit.addEventListener("click" , (e) => { // Evento click para crear/actualizar
             e.preventDefault();
-            const form  = document.getElementById("form_citas_admin")
-            const formData = new FormData(form)
-            formData.append("title" , "citas_admin");
-            formData.append("idUser" , idUser);
+            const form  = document.getElementById("form_citas_admin") // Obtiene el formulario
+            const formData = new FormData(form) // Crea FormData con los datos del formulario
+            formData.append("title" , "citas_admin"); // Agrega el parámetro de acción
+            formData.append("idUser" , idUser); // Agrega el id del usuario
             fetch("../../presenters/Citas.php", {
                 method:"POST",
                 body: formData
@@ -244,6 +261,8 @@ create_cita_admin = () => {
                     closeModalAdmin();
                     form.reset();
                     load_citas_by_user_table(idUser);
+                }else if(data ==="Error: La fecha de la cita no puede ser anterior a la fecha actual."){
+                    alert(data);
                 }else if(data==="admin"){
                     alert("Requiere admin")
                 }else if(data ==="Error: Datos incompletos."){
@@ -256,45 +275,48 @@ create_cita_admin = () => {
     }
 }
 
+// Cierra el modal de administración y resetea el formulario
 closeModalAdmin=()=>{
-    const close = document.getElementById("close_modal");
+    const close = document.getElementById("close_modal"); // Obtiene el botón de cerrar modal
     if(close){
         close.addEventListener("click" , ()=>{
-            const modal = document.getElementById("modal_cita_create");
+            const modal = document.getElementById("modal_cita_create"); // Obtiene el modal
             if(modal){
-                modal.style.display='none';
-                const form = document.getElementById("form_citas_admin");
+                modal.style.display='none'; // Oculta el modal
+                const form = document.getElementById("form_citas_admin"); // Obtiene el formulario
                 if(form){
-                    form.reset();
+                    form.reset(); // Resetea el formulario
                 }
             }
         })
     }
 }
 
+// Agrega eventos a la tabla de citas para editar o eliminar como admin
 edit_cita_modal=()=>{
-    const table = document.getElementById("table_body_citas_by_user");
+    const table = document.getElementById("table_body_citas_by_user"); // Obtiene la tabla de citas
     if(table){
-        table.addEventListener("click" , (e) => {
-            const btn = e.target.closest("#admin_edit_cita");
+        table.replaceWith(table.cloneNode(true))
+        const newTable = document.getElementById("table_body_citas_by_user")
+        newTable.addEventListener("click" , (e) => { // Evento click en la tabla
+            const btn = e.target.closest("#admin_edit_cita"); // Botón de editar
             if(btn){
-            closeModalAdmin();
-            const cita = JSON.parse(btn.getAttribute("data-item"))
-            const form = document.getElementById("form_citas_admin")
-            if(form){
-                document.getElementById("idCita").value = cita.idCita;
-                document.getElementById("fecha_cita").value = cita.fecha_cita;
-                document.getElementById("motivo_cita").value = cita.motivo_cita;
-                const btn = document.getElementById("create_cita_admin");
-                btn.innerHTML = "Actualizar" 
-                const modal = document.getElementById("modal_cita_create")
-                if(modal){
-                    modal.style.display = 'block';
-                    
-                    create_cita_admin();
+                closeModalAdmin(); // Cierra el modal si está abierto
+                const cita = JSON.parse(btn.getAttribute("data-item")) // Obtiene los datos de la cita
+                const form = document.getElementById("form_citas_admin") // Obtiene el formulario
+                if(form){
+                    document.getElementById("idCita").value = cita.idCita; // Llena el id de la cita
+                    document.getElementById("fecha_cita").value = cita.fecha_cita; // Llena la fecha
+                    document.getElementById("motivo_cita").value = cita.motivo_cita; // Llena el motivo
+                    const btn = document.getElementById("create_cita_admin");
+                    btn.innerHTML = "Actualizar" // Cambia el texto del botón
+                    const modal = document.getElementById("modal_cita_create")
+                    if(modal){
+                        modal.style.display = 'block'; // Muestra el modal
+                        create_cita_admin(); // Inicializa evento para actualizar cita
+                    }
                 }
-            }
-            }else if(e.target.closest("#admin_delete_cita")){
+            }else if(e.target.closest("#admin_delete_cita")){ // Si se hace click en eliminar
                 const btn = e.target.closest("#admin_delete_cita");
                 if(btn){
                     const idCita = btn.getAttribute("data-id")
@@ -320,14 +342,14 @@ edit_cita_modal=()=>{
                 }
             }
         })
-        
     }
 }
 
+// Función de inicialización al cargar la página
 function init() {
-    load_citas();
-    load_citas_user();
-    saveCita();
-    open_modal_cita_admin();
+    load_citas(); // Carga la tabla de usuarios con citas
+    load_citas_user(); // Carga las citas del usuario actual
+    saveCita(); // Inicializa el guardado de citas
+    open_modal_cita_admin(); // Inicializa el modal de administración
 }
-document.addEventListener('DOMContentLoaded', init)
+document.addEventListener('DOMContentLoaded', init) // Ejecuta init cuando el DOM esté listo

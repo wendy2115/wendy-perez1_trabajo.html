@@ -29,8 +29,23 @@ function delete_user(){
 
             if(confirm("¿Estas seguro de eliminar el registro?")){
                 //console.log(id)
-                const row = btn.closest("tr")
-                row.remove();
+                const formData = new FormData();
+                formData.append("title" , "delete_user");
+                formData.append("idUser" , id);
+                fetch("../../presenters/Usuarios.php",{
+                    method:"POST",
+                    body: formData
+                }).then(response =>response.text())
+                .then(data => {
+                    if(data ==="eliminado"){
+                        alert("Eliminado con éxito");
+                        const row = btn.closest("tr")
+                        row.remove();
+                    }else{
+                        alert("Error al eliminar")
+                    }
+                })
+                
             }
         }else if(e.target.closest(".btn-rounded-success")){
             const edit = e.target.closest(".btn-rounded-success")
@@ -63,14 +78,44 @@ function open_modal_edit(data){
     document.getElementsByName("edit_sexo").value = user.edit_sexo;
     document.getElementById("edit_direccion").value = user.direccion;
     document.getElementById("edit_rol").value = user.rol;
+    document.getElementById("edit_idUser").value = user.idUser;
+    document.getElementById("idLogin").value = user.idLogin;
     editUser();
     close_modal("editModal" , "close_edit")
 
 }
 
 function editUser(){
-    const btn = document.getElementById("form_edit_user");
+    const btn = document.getElementById("admin_updated_user");
     if(btn){
+        btn.replaceWith(btn.cloneNode(true))
+        const newBtn = document.getElementById("admin_updated_user")
+        newBtn.addEventListener("click" , (e) => {
+            e.preventDefault();
+            const form = document.getElementById("form_edit_user")
+            
+            const formData = new FormData(form);
+            formData.append("title" , "updated_user")
+            fetch("../../presenters/Usuarios.php" , {
+                method:"POST",
+                body:formData
+            }).then(response => response.text())
+            .then(data => {
+                if(data ==="campo vacios"){
+                    alert(data)
+                }else if(data === "admin"){
+                    alert("Requiere admin")
+                }else if(data ==="ok"){
+                    alert("actualizado");
+                    form.reset();
+                    const modal = document.getElementById("editModal")
+                    modal.style.display = 'none';
+                    load_usuarios()
+                }else{
+                    alert("error");
+                }
+            })
+        })
         
     }
 }

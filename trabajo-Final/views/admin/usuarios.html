@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../css/button.css">
     <link rel="stylesheet" href="../../css/modal.css">
     <link rel="stylesheet" href="../../css/login.css">
+    <link rel="stylesheet" href="../../css/alerts.css">
     <link rel="shortcut icon" href="../../images/Spa.svg" type="image/x-icon" />
     <link rel="stylesheet" href="../../css/componentes.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -48,7 +49,11 @@
     <div id="createModal" class="modal">
         <div class="modal-content">
             <span class="close" id="close_create">&times;</span>
+            
             <h3>Crear Nuevo Usuario</h3>
+            <div class="alert alert-error" id="alert-error" style="display: none;">
+            </div>
+            <div class="alert alert-success" id="alert-success" style="display: none;"></div>
             <form class="form" id="form_register_user">
                 <input type="hidden" name="title" value="create_user">
                 
@@ -84,7 +89,6 @@
                         <select name="sexo">
                             <option value="M">Masculino</option>
                             <option value="F">Femenino</option>
-                            <option value="Otro">Otro</option>
                         </select>
                     </div>
                 </div>
@@ -124,8 +128,8 @@
             <span class="close" id="close_edit">&times;</span>
             <h3>Editar Usuario</h3>
             <form class="form" id="form_edit_user">
-                <input type="hidden" name="action" value="editar">
                 <input type="hidden" name="idUser" id="edit_idUser">
+                <input type="hidden" name="idLogin" id="idLogin">
                 
                 <div class="form-row">
                     <div class="form-group">
@@ -177,7 +181,7 @@
                     </select>
                 </div>
                 
-                <button type="submit" class="btn btn-primary">Actualizar Usuario</button>
+                <button class="btn btn-primary" id="admin_updated_user">Actualizar Usuario</button>
             </form>
         </div>
     </div>
