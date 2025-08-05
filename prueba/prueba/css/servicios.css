@@ -1,0 +1,54 @@
+.servicios {
+  margin-top: 60px;
+}
+
+.servicios-section {
+  padding: 20px 50px 50px;
+}
+
+.servicios-titulo {
+  font-size: 26px;
+  color: #00000090;
+  margin: 20px;
+}
+
+.servicios-inf {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: auto;
+}
+
+.servicio-tarjeta {
+  width: 400px;
+  max-width: 90%;
+  height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 10px #00000050;
+  margin: 20px;
+}
+
+.servicio-tarjeta img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.servicio-targeta-info {
+  padding: 15px 15px 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.servicio-targeta-info h3 {
+  color: #ed39a5;
+}
+
+.servicio-tarj-descripcion {
+  padding: 5px 15px;
+  color: grey;
+}

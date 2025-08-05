@@ -1,0 +1,40 @@
+.main-content{
+    max-width: 100vh; /*ocupa el 100% de la pantalla*/
+    margin:2rem auto; /*da un margen para derecha e izquieda 2 rem y auto para arriba y abajo*/
+    padding:  4rem; /*asigna aun paddingn derecha e izquieda de 0 y 2rem para arriba y abajo */
+}
+
+.form-container{
+    max-width: 600px; /*asigan el ancho del contenedor div*/
+    margin: 2rem auto; /*margen de 2rem derecha e izquierda y auto para arriba y abajo*/
+    padding: 2rem; /*asigna 2 rem para derecha, izquierda, arriba y abajo*/
+    border: 1px solid #ddd; /*asigna un border de 1px de grosor al container con un color*/
+    border-radius: 8px; /*le asigna una curva en las puntas al container*/
+    transition: transform 0.6s cubic-bezier(.4,2.3,.3,1);
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+}
+.form-container.animar{
+    transform: rotateY(30deg);
+}
+
+.form-group{
+    margin-bottom: 1rem; /*asigna un margen abajo de 1rem*/
+}
+
+.form-group label{
+    display: block;/*hace que el label del la clase form-group haga un salto*/
+    margin-bottom: 0.5rem; /*asigna un espacio al label en la parte de inferior*/
+    font-weight: bold;/*asigna nregrita a los labels*/
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+    width: 100%; /*ocupa el 100% de ancho disponible*/
+    padding: 0.75rem; /*asing internamente un ancho del los input, selecte y textarea*/
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+

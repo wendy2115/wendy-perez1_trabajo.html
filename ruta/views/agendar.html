@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pide tu cita</title>
+    <link rel="shortcut icon" href="../images/Spa.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/componentes.css" />
+    <link rel="stylesheet" href="../css/agendar.css" />
+    
+  </head>
+  <body>
+    <div id="header-container"></div>
+
+    <div class="agendar-container">
+      <div class="agendar-oscuro"></div>
+      <div style="position: relative; z-index: 10">
+        <h2 class="agendar-titulo">Pide tu Cita</h2>
+
+        <form class="agendar-formulario">
+          <label for="nombre">Nombre</label>
+          <input class="agendar-option" type="text" id="nombre" required />
+
+          <label for="email">Email</label>
+          <input class="agendar-option" type="email" id="email" required />
+
+          <label for="telefono">Teléfono</label>
+          <input class="agendar-option" type="tel" id="telefono" required />
+
+          <label for="servicio">Servicio</label>
+          <select class="agendar-option" name="servicio" id="servicio" required>
+            <option value="Babor Spress">Babor Spress</option>
+            <option value="Velos de Colágeno">Velos de Colágeno</option>
+            <option value="Crash Ampollas">Crash Ampollas</option>
+            <option value="Cleopatra - Hidratante de Leche">
+              Cleopatra - Hidratante de Leche
+            </option>
+            <option value="Chocolaterapia">Chocolaterapia</option>
+            <option value="Vinoterapia">Vinoterapia</option>
+            <option value="Cerezoterapia">Cerezoterapia</option>
+            <option value="Spa Herbal">Spa Herbal</option>
+            <option value="Aceite de Oliva Cascantum">
+              Aceite de Oliva Cascantum
+            </option>
+            <option value="Tailandés con Bambú">Tailandés con Bambú</option>
+            <option value="Relax aceite de Oliva">Relax aceite de Oliva</option>
+            <option value="Masaje Circulatorio">Masaje Circulatorio</option>
+            <option value="Podal">Podal</option>
+            <option value="Pilates estudio">Pilates estudio</option>
+            <option value="Yoga">Yoga</option>
+          </select>
+
+          <label for="fecha">Dia/Hora</label>
+          <input
+            class="agendar-option"
+            type="datetime-local"
+            id="fecha"
+            required
+          />
+
+          <div class="agendar-polit-priv">
+            <input type="checkbox" id="polit-priv" required />
+            <a href="./polit-priv.html">Aceptar pólitica de privacidad</a>
+          </div>
+
+          <button class="agendar-enviar">Enviar</button>
+        </form>
+      </div>
+    </div>
+
+    <footer class="footer-container">
+      <div class="footer-logo">
+        <img src="../images/SpaCanelitaLogo.svg" alt="Spa canelita" />
+      </div>
+
+      <p class="footer-description">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus
+        temporibus praesentium deleniti, eaque delectus culpa dolorem aperiam
+        quaerat maiores voluptatibus doloremque quisquam? Neque cupiditate
+        tenetur, a eveniet delectus ut qui!
+      </p>
+
+      <div class="footer-inf-container">
+        <div class="info-item">
+          <img src="../images/ubicacion-icono.svg" alt="ubicación" />
+
+          <p>Cl. Toledo, 23, 13005 Ciudad Real</p>
+        </div>
+
+        <a href="tel:+34672998765" class="info-item">
+          <img src="../images/tel-icono.svg" alt="telefono" />
+
+          <p>+34 672 99 87 65</p>
+        </a>
+
+        <div class="info-item">
+          <img src="../images/email-icono.svg" alt="email" />
+
+          <p>contacto@spacanelita.com</p>
+        </div>
+      </div>
+
+      <div class="legal-container">
+        <div class="copyright-cont">
+          <img src="../images/copyright-icono.svg" alt="C" />
+
+          <p>Spa Canelita, Derechos de autor.</p>
+        </div>
+
+        <div class="redes-sociales">
+          <a class="social-link" href="https://twitter.com" target="_blank">
+            <img src="../images/twitter-icono.svg" alt="twitter" />
+          </a>
+
+          <a class="social-link" href="https://facebook.com" target="_blank">
+            <img src="../images/facebook-icono.svg" alt="facebook" />
+          </a>
+
+          <a class="social-link" href="https://whatsapp.com" target="_blank">
+            <img src="../images/whatsapp-icono.svg" alt="whatsapp" />
+          </a>
+
+          <a class="social-link" href="https://instagram.com" target="_blank">
+            <img src="../images/instagram-icono.svg" alt="instagram" />
+          </a>
+        </div>
+      </div>
+    </footer>
+    <script src="../js/load.js"></script>
+  </body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administraciòn usuarios</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/button.css">
+    <link rel="stylesheet" href="../../css/modal.css">
+    <link rel="stylesheet" href="../../css/login.css">
+    <link rel="stylesheet" href="../../css/alerts.css">
+    <link rel="shortcut icon" href="../../images/Spa.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/componentes.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    <main style="padding: 4rem 2rem 2rem 0">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                     <!-- Botón para crear nuevo usuario -->
+        	<button id="btn_open_modal_create" class="btn btn-primary">Crear Nuevo Usuario</button>
+                    <div class="table-container">
+                        <table class="modern-table" id="table_usuarios_admin">
+                            <thead>
+                                <th>Còdigo User</th>
+                                <th>Nombres y Apellidos</th>
+                                <th>Correo</th>
+                                <th>Telefóno</th>
+                                <th>Fecha de nacimiento</th>
+                                <th>Dirección</th>
+                                <th>Genero</th>
+                                <th></th>
+                            </thead>
+                            <tbody id="table_contenido_usuarios_admin">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </main>
+    
+    <!-- Modal para crear usuario -->
+    <div id="createModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close_create">&times;</span>
+            
+            <h3>Crear Nuevo Usuario</h3>
+            <div class="alert alert-error" id="alert-error" style="display: none;">
+            </div>
+            <div class="alert alert-success" id="alert-success" style="display: none;"></div>
+            <form class="form" id="form_register_user">
+                <input type="hidden" name="title" value="create_user">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nombre *</label>
+                        <input type="text" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Apellidos *</label>
+                        <input type="text" name="apellidos" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono *</label>
+                        <input type="text" name="telefono" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Fecha de Nacimiento *</label>
+                        <input type="date" name="fecha_nacimiento" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Sexo</label>
+                        <select name="sexo">
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Dirección</label>
+                    <textarea name="direccion"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Usuario *</label>
+                        <input type="text" name="usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña *</label>
+                        <input type="password" name="password" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Rol *</label>
+                    <select name="rol" required>
+                        <option value="user">Usuario</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary" id="btn_register">Crear Usuario</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal para editar usuario -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close_edit">&times;</span>
+            <h3>Editar Usuario</h3>
+            <form class="form" id="form_edit_user">
+                <input type="hidden" name="idUser" id="edit_idUser">
+                <input type="hidden" name="idLogin" id="idLogin">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nombre *</label>
+                        <input type="text" name="nombre" id="edit_nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Apellidos *</label>
+                        <input type="text" name="apellidos" id="edit_apellidos" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" name="email" id="edit_email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono *</label>
+                        <input type="text" name="telefono" id="edit_telefono" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Fecha de Nacimiento *</label>
+                        <input type="date" name="fecha_nacimiento" id="edit_fecha_nacimiento" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Sexo</label>
+                        <select name="sexo" id="edit_sexo">
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Dirección</label>
+                    <textarea name="direccion" id="edit_direccion"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Rol *</label>
+                    <select name="rol" id="edit_rol" required>
+                        <option value="user">Usuario</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary" id="admin_updated_user">Actualizar Usuario</button>
+            </form>
+        </div>
+    </div>
+    <script src="../../js/table.js"></script>
+    <script src="../../js/load.js"></script>
+    <script src="../../js/auth.js"></script>
+
+</body>
+</html>

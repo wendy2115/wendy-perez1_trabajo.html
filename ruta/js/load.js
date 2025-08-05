@@ -1,5 +1,5 @@
 function load_header() {
-    fetch('/views/header/header.html')
+    fetch('/views/header/header.html') 
         .then(response => response.text())
         .then(data => {
             document.getElementById('header-container').innerHTML = data;
@@ -28,12 +28,12 @@ function load_header() {
                     if (data != "1") {
                         if (nav) {
                             const login = document.createElement("a");
-                            login.href = "../auth/login.html";
+                            login.href = "/views/auth/login.html";
                             login.textContent = "Iniciar Sesión";
                             login.className = "header-nav-link";
                             nav.appendChild(login)
                             const registro = document.createElement("a");
-                            registro.href = "../auth/register.html";
+                            registro.href = "/views/auth/register.html";
                             registro.textContent = "Registro";
                             registro.className = "header-nav-link";
                             nav.appendChild(registro);

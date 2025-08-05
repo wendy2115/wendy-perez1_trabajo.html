@@ -1,0 +1,85 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/button.css">
+    <link rel="stylesheet" href="../../css/modal.css">
+    <link rel="stylesheet" href="../../css/login.css">
+    <link rel="shortcut icon" href="../../images/Spa.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/componentes.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="" id="header-container"></div>-->
+
+    <main style="padding: 4rem 2rem 2rem 0;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <button class="btn btn-success" id="create_noticia">Crear Noticia</button>
+                        <table class="modern-table" id="table_noticias">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Titulo</th>
+                                    <th>Imagen</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="table_noticias_content">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<!--modal-->
+<!--noticias-->
+    <div id="modal_noticia" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close_modal_noticias">&times;</span>
+            <h3 id="title_noticias">Crear Noticia</h3>
+            <form  class="form" id="form_noticia" enctype="multipart/form-data"> 
+                <input type="hidden" name="idNoticia" id="idNoticia">
+                <div class="form-group">
+                    <label for="titulo">Titulo</label>
+                    <input type="text" id="titulo" name="titulo" />
+                </div>
+                
+                <div class="form-group">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" id="fecha" name="fecha">
+                </div>
+                 <div class="form-group">
+                    <label for="texto">Texto</label>
+                    <textarea rows="10" cols="10" name="texto" id="texto"></textarea>
+                </div>
+                 <div class="form-group">
+                     
+                        
+                    <img id="img" alt="" width="200px" height="200px" style="display: none;">
+                        
+                    
+                    <label for="imagen">Imagen</label>
+                    <input type="file" id="imagen" name="imagen">
+                 </div>
+                <button class="btn btn-primary" id="btn_noticia_crear" style="display: none;">Guardar</button>
+                <button class="btn btn-primary" id="btn_noticia_editar" style="display: none;">Actualizar</button>
+            </form>
+        </div>
+    </div>
+
+    <!--<script src="../../js/auth.js"></script>
+    <script src="../../js/load.js"></script>
+    <script src="../../js/noticias.js"></script>
+</body>
+
+
+</html>-->

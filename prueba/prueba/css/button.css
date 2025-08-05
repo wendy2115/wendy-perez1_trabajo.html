@@ -1,0 +1,56 @@
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.btn-primary{
+    background-color: #007bff;
+}
+.btn-secondary{
+    background-color: #38d309;
+}
+
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-rounded-danger {
+    background-color: #dc3545;       /* rojo Bootstrap-like */
+    color: white;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 50px;             /* borde completamente redondeado */
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+.btn-rounded-success {
+    background-color: #65e66e;       /* rojo Bootstrap-like */
+    color: white;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 50px;             /* borde completamente redondeado */
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+.btn-rounded-danger:hover {
+    background-color: #c82333;       /* tono más oscuro al pasar el cursor */
+}
